@@ -6,6 +6,6 @@ Try running some of the following tasks:
 
 ```shell
 npx hardhat node
-npx hardhat run scripts/deploy.js
+npx hardhat run scripts/deploy.js --network localhost
 ```
 
