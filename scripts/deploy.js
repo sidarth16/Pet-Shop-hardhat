@@ -5,10 +5,13 @@
 // will compile your contracts, add the Hardhat Runtime Environment's members to the
 // global scope, and execute the script.
 const hre = require("hardhat");
-const { ethers } = require("hardhat")
+// const { ethers } = require("hardhat")
 
 
 async function main() {
+
+  const [deployer] = await hre.ethers.getSigners();
+  console.log("Deployer :", deployer.address);
 
   const adoption = await hre.ethers.deployContract("Adoption");
   await adoption.waitForDeployment();
