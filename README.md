@@ -25,6 +25,16 @@ Hardhat Implementation of https://trufflesuite.com/guides/pet-shop<br/>
     ```shell
     npx hardhat test
     ```
+
+- To use DApp:
+    - Update contractAddress (sepolia) in ```src/pages/index.js```
+    - Run the following command
+        ```shell
+        npm run dev
+        ```
+    - open localhost and interact with the DApp
+
+
 ---
 ## Demo Screenshots :
 
@@ -42,3 +52,7 @@ Hardhat Implementation of https://trufflesuite.com/guides/pet-shop<br/>
 
 ### Hardhat Test Results
 ![Test Results](screenshots/testResults.png)
+
+## DApp Demo :
+![pet shop DApp](screenshots/dapp.gif)
+- ref Tx : https://sepolia.etherscan.io/tx/0x18d412878afd00b38d20df4e25e462eb0f88342d6532aa44e63adfdf16bfb244
