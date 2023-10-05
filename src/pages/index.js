@@ -4,7 +4,7 @@ import styles from '../styles/Home.module.css'
 import {ethers} from 'ethers'
 import { useEffect, useState } from "react";
 
-const nftAddress = "0x16A9b6E13A2C6D9CCf96cF0180D74A1F362762Af" //sepolia
+const contractAddress = "0x16A9b6E13A2C6D9CCf96cF0180D74A1F362762Af" //sepolia
 import nftAbi from "../abi.json"
 import pets from "../pets.json"
 const SEPOLIA_CHAIN_ID = 11155111
@@ -67,7 +67,7 @@ export default function Home() {
   async function check(id) {
     if (isConnected) {
       const provider = new ethers.BrowserProvider(window.ethereum);
-      const adoption = new ethers.Contract(nftAddress, nftAbi, provider);
+      const adoption = new ethers.Contract(contractAddress, nftAbi, provider);
       let adopters = await adoption.getAdopters();
       console.log("id : ",adopters[id]);
       if (adopters[id] != ethers.ZeroAddress){
@@ -86,7 +86,7 @@ export default function Home() {
 
   async function adopt(id) {
     if (isConnected) {
-      const adoption = new ethers.Contract(nftAddress, nftAbi, signer);
+      const adoption = new ethers.Contract(contractAddress, nftAbi, signer);
       console.log("Adoption Contract : ",await adoption.getAddress());
 
       try {
@@ -146,7 +146,7 @@ export default function Home() {
         <meta name="description" content="Demo Dapp for pet Adoption" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      
+
       <main className={styles.main}>
 
         <div className={styles.connect}>
