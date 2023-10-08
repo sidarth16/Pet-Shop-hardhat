@@ -84,7 +84,7 @@ export default function Home() {
 
       let petId = document.getElementById("checkAdopter").value;
       console.log("petId : ",petId);
-      if (petId !=""){
+    if (petId !="" && petId >= 0 && petId <= 15){
         document.getElementById("adopterAddress").innerHTML = adopters[petId];
       }
       else{
@@ -189,7 +189,7 @@ export default function Home() {
         <div className={styles.adopter} >
           <span className="panel-title">Pet Id : </span>
           <input type="number" min="0" max="15" id="checkAdopter" placeholder=" (0-15)" />
-          <button  onClick={() => getAdopter()}> getAdopter() </button>
+          <button  onClick={() => getAdopter()}> getAdopter </button>
         </div>
         <div className={styles.adopterAddress}>
           <span id="adopterAddress" ></span>
