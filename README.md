@@ -27,7 +27,7 @@ Hardhat Implementation of https://trufflesuite.com/guides/pet-shop<br/>
     ```
 
 - To use DApp:
-    - Update contractAddress (sepolia) in ```src/pages/index.js```
+    - Update ```contractAddress```  in ```src/pages/index.js```
     - Run the following command
         ```shell
         npm run dev
