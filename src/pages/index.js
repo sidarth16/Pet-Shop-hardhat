@@ -4,10 +4,11 @@ import styles from '../styles/Home.module.css'
 import {ethers} from 'ethers'
 import { useEffect, useState } from "react";
 
-const contractAddress = "0x16A9b6E13A2C6D9CCf96cF0180D74A1F362762Af" //sepolia
 import nftAbi from "../abi.json"
 import pets from "../pets.json"
-const SEPOLIA_CHAIN_ID = 11155111
+
+const contractAddress = "0x16A9b6E13A2C6D9CCf96cF0180D74A1F362762Af" //sepolia
+// const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3" //localhost
 
 export default function Home() {
   const [isConnected, setIsConnected] = useState(false);
@@ -26,14 +27,6 @@ export default function Home() {
 
   async function connect() {
     if (window.ethereum) {
-
-      try {
-        await window.ethereum.request({
-           method: 'wallet_switchEthereumChain',  params: [{ chainId: ethers.toQuantity(SEPOLIA_CHAIN_ID) }],
-        });
-      } catch (error) {
-        console.error(error);
-      }
 
       try {
         window.ethereum.request({ method: "eth_requestAccounts" })
@@ -69,7 +62,6 @@ export default function Home() {
       const provider = new ethers.BrowserProvider(window.ethereum);
       const adoption = new ethers.Contract(contractAddress, nftAbi, provider);
       let adopters = await adoption.getAdopters();
-      console.log("id : ",adopters[id]);
       if (adopters[id] != ethers.ZeroAddress){
         document.getElementById(id).innerHTML = "Adopted";
         document.getElementById(id).disabled = true;
@@ -81,6 +73,28 @@ export default function Home() {
     else {
       document.getElementById(id).disabled = true;
       return;
+    }
+  }
+
+  async function getAdopter(){
+    if (isConnected) {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const adoption = new ethers.Contract(contractAddress, nftAbi, provider);
+      let adopters = await adoption.getAdopters();
+
+      let petId = document.getElementById("checkAdopter").value;
+      console.log("petId : ",petId);
+      if (petId !=""){
+        document.getElementById("adopterAddress").innerHTML = adopters[petId];
+      }
+      else{
+        console.log("Please Enter Pet Id");
+        document.getElementById("adopterAddress").innerHTML = "Please Enter a valid Pet Id";
+      }
+    }
+    else {
+      console.log("Please Connect your Metamask Wallet");
+      document.getElementById("adopterAddress").innerHTML = "Please Connect your Metamask Wallet";
     }
   }
 
@@ -103,39 +117,7 @@ export default function Home() {
       }
     } 
     else {
-      console.log("Please Conect your Metamask Wallet");
-    }
-  }
-
-  async function page_init() {
-    try {
-      
-      var petsRows = document.getElementById('petsRow');
-      var pet = document.getElementById('petTemplate');
-      // console.log(pet.innerHTML);
-      for(let i = 0; i < pets.length; i++) {
-        let obj = pets[i];
-        
-        var petInnerHTML = pet.innerHTML
-        petInnerHTML = petInnerHTML.replace('style={{display: "none"}}', '')
-        petInnerHTML = petInnerHTML.replace('Scrappy', obj.name) 
-        petInnerHTML = petInnerHTML.replace('Golden Retriever', obj.breed)
-        petInnerHTML = petInnerHTML.replace('3', obj.age)
-        petInnerHTML = petInnerHTML.replace('Warren, MI', obj.location)
-        petInnerHTML = petInnerHTML.replace('https://animalso.com/wp-content/uploads/2017/01/Golden-Retriever_6.jpg', obj.picture)
-        petInnerHTML = petInnerHTML.replace('<button className="btn btn-default btn-adopt" data-id="0">Adopt</button>', '<button className="btn btn-default btn-adopt" onclick={() => adopt()} data-id="0">Adopt</button>')
-
-
-        petsRows.innerHTML += petInnerHTML
-
-
-        // pet.getElementsByClassName('panel-title').text = obj.name;
-        // petsRows.appendChild(pet);
-        // console.log(pet.innerHTML);
-
-      }
-    } catch (error) {
-      console.log(error);
+      console.log("Please Connect your Metamask Wallet");
     }
   }
 
@@ -183,6 +165,7 @@ export default function Home() {
                     <div className="panel-body" style={{color:"black"}}>
                       <img alt="140x140" className="img-rounded img-center" style={{width: "100%"}} src={pet.picture} data-holder-rendered="true"/>
                       <br/><br/>
+                      <strong>Id</strong>: <span className="pet-id">{pet.id}</span><br/>
                       <strong>Breed</strong>: <span className="pet-breed">{pet.breed}</span><br/>
                       <strong>Age</strong>: <span className="pet-age">{pet.age}</span><br/>
                       <strong>Location</strong>: <span className="pet-location">{pet.location}</span><br/><br/>
@@ -195,8 +178,26 @@ export default function Home() {
             ))
           }
           </div>
+        <hr/>
         </div>
+
+        
+        <div>
+          <h1 >Get Adopter</h1>
+          <hr/>
+        </div>
+        <div className={styles.adopter} >
+          <span className="panel-title">Pet Id : </span>
+          <input type="number" min="0" max="15" id="checkAdopter" placeholder=" (0-15)" />
+          <button  onClick={() => getAdopter()}> getAdopter() </button>
+        </div>
+        <div className={styles.adopterAddress}>
+          <span id="adopterAddress" ></span>
+        </div>
+
       </main>
+
+        
 
       <footer className={styles.footer}>
         <a
