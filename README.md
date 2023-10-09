@@ -27,12 +27,23 @@ Hardhat Implementation of https://trufflesuite.com/guides/pet-shop<br/>
     ```
 
 - To use DApp:
+    
     - Update ```contractAddress```  in ```src/pages/index.js```
     - Run the following command
         ```shell
         npm run dev
         ```
     - open localhost and interact with the DApp
+    ```
+    Note: 
+    if using hardhat localnode: 
+        - Before interacting with Dapp : 
+            - Open metamask in the browser
+            - connect to the Hardhat localhost server
+            - Open the account you want to connect with the DAPP
+            - Go to Settings -> Advanced -> clear activity tab data.
+            - Now you are ready to use the DApp
+    ```
 
 
 ---
